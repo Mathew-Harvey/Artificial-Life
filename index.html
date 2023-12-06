@@ -4,63 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artificial Life Simulation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
-   <h1>Artificial Life</h1>
-   <h2>This is our artificial world on a 2D canvas</h2>
-   <canvas id="life" width="500" height="500"></canvas>
-
-   <div class="control-section">
-       <label for="speedFactor-slider">Speed Control:</label>
-       <input type="range" id="speedFactor-slider" min="0.1" max="1" value="1" step="0.1">
-   </div>
-
-   <div class="control-section" id="red-controls">
-       <h3>Red Particles</h3>
-       <label for="size-slider-red">Size:</label>
-       <input type="range" id="size-slider-red" min="1" max="10" value="5">
-       <label for="attraction-slider-red">Attraction:</label>
-       <input type="range" id="attraction-slider-red" min="-1" max="1" step="0.1" value="0">
-       <label for="repulsion-slider-red">Repulsion:</label>
-       <input type="range" id="repulsion-slider-red" min="-1" max="1" step="0.1" value="0">
-   </div>
-
-   <!-- Repeat for green, yellow, and white controls -->
-   <!-- Example for Green Particles -->
-   <div class="control-section" id="green-controls">
-       <h3>Green Particles</h3>
-       <label for="size-slider-green">Size:</label>
-       <input type="range" id="size-slider-green" min="1" max="10" value="5">
-       <label for="attraction-slider-green">Attraction:</label>
-       <input type="range" id="attraction-slider-green" min="-1" max="1" step="0.1" value="0">
-       <label for="repulsion-slider-green">Repulsion:</label>
-       <input type="range" id="repulsion-slider-green" min="-1" max="1" step="0.1" value="0">
-   </div>
-
-   <div class="control-section" id="yellow-controls">
-    <h3>Yellow Particles</h3>
-    <label for="size-slider-green">Size:</label>
-    <input type="range" id="size-slider-yellow" min="1" max="10" value="5">
-    <label for="attraction-slider-yellow">Attraction:</label>
-    <input type="range" id="attraction-slider-yellow" min="-1" max="1" step="0.1" value="0">
-    <label for="repulsion-slider-yellow">Repulsion:</label>
-    <input type="range" id="repulsion-slider-yellow" min="-1" max="1" step="0.1" value="0">
-</div>
-
-<div class="control-section" id="white-controls">
-    <h3>White Particles</h3>
-    <label for="size-slider-white">Size:</label>
-    <input type="range" id="size-slider-white" min="1" max="10" value="5">
-    <label for="attraction-slider-white">Attraction:</label>
-    <input type="range" id="attraction-slider-white" min="-1" max="1" step="0.1" value="0">
-    <label for="repulsion-slider-white">Repulsion:</label>
-    <input type="range" id="repulsion-slider-white" min="-1" max="1" step="0.1" value="0">
-</div>
-
-   <!-- Add similar div blocks for yellow and white controls -->
-
-   <script src="script.js"></script>
+    <h1>Artificial Life</h1>
+    <h2>This is our artificial world on a 2D canvas</h2>
+    <canvas id="life" width="500" height="500"></canvas>
+    <div class="control-section">
+        <label for="speedFactor-slider">Speed Control:</label>
+        <input type="range" id="speedFactor-slider" min="0.1" max="1" value="1" step="0.1">
+    </div>
+    <div class="control-section" id="red-controls">
+        <h3>Red Particles</h3>
+        <label for="size-slider-red">Size:</label>
+        <input type="range" id="size-slider-red" min="1" max="10" value="5">
+        <label for="force-slider-red">Attraction/Repulsion:</label>
+        <input type="range" id="force-slider-red" min="-1" max="1" step="0.1" value="0">
+    </div>
+    <div class="control-section" id="yellow-controls">
+        <h3>Yellow Particles</h3>
+        <label for="size-slider-yellow">Size:</label>
+        <input type="range" id="size-slider-yellow" min="1" max="10" value="5">
+        <label for="force-slider-yellow">Attraction/Repulsion:</label>
+        <input type="range" id="force-slider-yellow" min="-1" max="1" step="0.1" value="0">
+    </div>
+    <div class="control-section" id="green-controls">
+        <h3>Green Particles</h3>
+        <label for="size-slider-green">Size:</label>
+        <input type="range" id="size-slider-green" min="1" max="10" value="5">
+        <label for="force-slider-green">Attraction/Repulsion:</label>
+        <input type="range" id="force-slider-green" min="-1" max="1" step="0.1" value="0">
+    </div>
+    <div class="control-section" id="white-controls">
+        <h3>White Particles</h3>
+        <label for="size-slider-white">Size:</label>
+        <input type="range" id="size-slider-white" min="1" max="10" value="5">
+        <label for="force-slider-white">Attraction/Repulsion:</label>
+        <input type="range" id="force-slider-white" min="-1" max="1" step="0.1" value="0">
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
