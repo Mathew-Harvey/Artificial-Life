@@ -3,46 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+
     <title>Artificial Life Simulation</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Artificial Life</h1>
-    <h2>This is our artificial world on a 2D canvas</h2>
-    <canvas id="life" width="500" height="500"></canvas>
-    <div class="control-section">
-        <label for="speedFactor-slider">Speed Control:</label>
-        <input type="range" id="speedFactor-slider" min="0.1" max="1" value="1" step="0.1">
+    <div class="header-container">
+        <h1>Welcome to the Edge of Complexity</h1>
+        <h4>Discover the Unseen Universe of Patterns and Rules</h4>
+        <p id="dynamic-text">In a world governed by complexity, the simplest rules can unfold into the most intricate patterns. This is the realm of emergent complexity - a journey into the heart of systems where the whole is far more than just the sum of its parts. From the swirling patterns of a galaxy to the delicate structure of a snowflake, complexity surrounds us.
+
+           <h4>Embark on an Odyssey with Pioneers of Thought</h4> 
+            
+            Join us as we delve into the groundbreaking ideas of Stephen Wolfram and John Conway, visionaries who unraveled the mysteries of complex systems with simple, yet profound insights.
+            
+            <b>Stephen Wolfram's Universe:</b> Venture into Wolfram's world of cellular automata and explore how simple computational processes can lead to unexpected and intricate patterns. His work challenges our understanding of the universe, suggesting that the complexities of nature might arise from simple, algorithmic rules.
+            
+            <b>John Conway's Game of Life:</b> Step into Conway's iconic 'Game of Life', a captivating cellular automaton that simulates life, death, and survival on a digital plane. Witness how basic rules can lead to an astonishing variety of outcomes, mirroring the unpredictability and diversity of life itself.
+            
+            <h4>Experience the Magic of Simple Rules Leading to Complex Behaviors</h4>
+            
+            Our platform is more than just a gateway to theories; it's an interactive canvas where you can experiment, create, and visualize the stunning beauty of emergent complexity. Dive into interactive simulations, engage with intuitive explanations, and see firsthand how simple algorithms can create patterns of immense complexity.
+            
+            <h4>Join Us in the Dance of Complexity and Simplicity</h4>
+            
+            Whether you're a curious mind, a passionate educator, or a visionary thinker, this journey is for you. Uncover the elegance of simplicity underlying our complex world, and be inspired by the endless possibilities that simple rules can unleash.
+            
+            Welcome to a Universe of Unimagined Possibilities. Welcome to the Edge of Complexity.</p>
     </div>
-    <div class="control-section" id="red-controls">
-        <h3>Red Particles</h3>
-        <label for="size-slider-red">Size:</label>
-        <input type="range" id="size-slider-red" min="1" max="10" value="5">
-        <label for="force-slider-red">Attraction/Repulsion:</label>
-        <input type="range" id="force-slider-red" min="-1" max="1" step="0.1" value="0">
+
+    <div class="main-container">
+        <div class="button-container">
+
+        <button id="ChromaticDynamics">Chromatic Dynamics</button>
+        <button id="HarmonicFlux">Harmonic Flux</button>
+        <button id="VibrantMosaic">Vibrant Mosaic</button>
+        <button id="CosmicKaleidoscope">Cosmic Kaleidoscope</button>
+        <button id="EtherealWeave">Ethereal Weave</button>
+        <button id="CellularHarmony">Cellular Harmony</button>
+        <button id="Automata">Automata Artistry</button>
+        <button id="EvolvingEntity">Evolving Entity</button>
+        <button id="HarmoniousEntity">Harmonious Entity</button>
     </div>
-    <div class="control-section" id="yellow-controls">
-        <h3>Yellow Particles</h3>
-        <label for="size-slider-yellow">Size:</label>
-        <input type="range" id="size-slider-yellow" min="1" max="10" value="5">
-        <label for="force-slider-yellow">Attraction/Repulsion:</label>
-        <input type="range" id="force-slider-yellow" min="-1" max="1" step="0.1" value="0">
+        <canvas id="life" width="900" height="900"></canvas>
+
+        <div class="slider-container">
+            <!-- Speed Control Section -->
+            <div class="control-section">
+                <label for="speedFactor-slider">Speed Control:</label>
+                <input type="range" id="speedFactor-slider" min="0.1" max="1" value="1" step="0.1">
+                <span id="speedFactor-value">1</span>
+            </div>
+
+            <!-- Red Controls Section -->
+            <div class="control-section" id="red-controls">
+
+                <h3>Red Particles</h3>
+                <label for="size-slider-red"></label>
+                <input type="range" id="size-slider-red" min="1" max="10" value="5">
+                <span id="size-value-red">5</span>
+
+                <h4>Red x Red </h4>
+                <label for="force-slider-redRed"></label>
+                <input type="range" id="force-slider-redRed" min="-1" max="1" step="0.01" value="0">
+                <span id="force-value-redRed">0</span>
+
+                <h4>Red x Green </h4>
+                <label for="force-slider-redGreen"></label>
+                <input type="range" id="force-slider-redGreen" min="-1" max="1" step="0.01" value="0">
+                <span id="force-value-redGreen">0</span>
+
+                <h4>Red x Yellow </h4>
+                <label for="force-slider-redYellow"></label>
+                <input type="range" id="force-slider-redYellow" min="-1" max="1" step="0.01" value="0">
+                <span id="force-value-redYellow">0</span>
+
+                <h4>Red x White </h4>
+                <label for="force-slider-redWhite"></label>
+                <input type="range" id="force-slider-redWhite" min="-1" max="1" step="0.01" value="0">
+                <span id="force-value-redWhite">0</span>
+            </div>
+
+
+
+
+            <div class="control-section" id="yellow-controls">
+                <h3>Yellow Particles</h3>
+                <label for="size-slider-yellow"></label>
+                <input type="range" id="size-slider-yellow" min="1" max="10" value="5">
+                <span id="size-value-yellow">5</span>
+
+                <h4>Yellow x Yellow </h4>
+                <label for="force-slider-yellowYellow"></label>
+                <input type="range" id="force-slider-yellowYellow" min="-1" max="1" step="0.01" value="0">
+                <span id="force-value-yellowYellow">0</span>
+
+                <h4>Yellow x Red </h4>
+                <label for="force-slider-yellowRed"></label>
+                <input type="range" id="force-slider-yellowRed" min="-1" max="1" step="0.01" value="0">
+                <span id="force-value-yellowRed">0</span>
+                
+                <h4>Yellow x Green </h4>
+                <label for="force-slider-yellowGreen"></label>
+                <input type="range" id="force-slider-yellowGreen" min="-1" max="1" step="0.01" value="0">
+                <span id="force-value-yellowGreen">0</span>
+
+                <h4>Yellow x White </h4>
+                <label for="force-slider-yellowWhite"></label>
+                <input type="range" id="force-slider-yellowWhite" min="-1" max="1" step="0.01" value="0">
+                <span id="force-value-yellowWhite">0</span>  
+
+            </div>
+
+
+            <div class="control-section" id="green-controls">
+                <h3>Green Particles</h3>
+                <label for="size-slider-green"></label>
+                <input type="range" id="size-slider-green" min="1" max="10" value="5">
+                <span id="size-value-green">5</span>
+
+                <h4>Green x Green </h4>
+                <label for="force-slider-greenGreen"></label>
+                <input type="range" id="force-slider-greenGreen" min="-1" max="1" step="0.01" value="0">
+                <span id="force-value-greenGreen">0</span>
+                
+                <h4>Green x Red </h4>
+                <label for="force-slider-greenRed"></label>
+                <input type="range" id="force-slider-greenRed" min="-1" max="1" step="0.01" value="0">
+                <span id="force-value-greenRed">0</span>
+
+                <h4>Green x Yellow </h4>
+                <label for="force-slider-greenYellow"></label>
+                <input type="range" id="force-slider-greenYellow" min="-1" max="1" step="0.01" value="0">
+                <span id="force-value-greenYellow">0</span>
+
+                <h4>Green x White </h4>
+                <label for="force-slider-greenWhite"></label>
+                <input type="range" id="force-slider-greenWhite" min="-1" max="1" step="0.01" value="0">
+                <span id="force-value-greenWhite">0</span>
+
+            </div>
+
+
+            <div class="control-section" id="white-controls">
+                <h3>White Particles</h3>
+                <label for="size-slider-white"></label>
+                <input type="range" id="size-slider-white" min="1" max="10" value="5">
+                <span id="size-value-white">5</span>
+
+                <h4>White x White </h4>
+                <label for="force-slider-whiteWhite"></label>
+                <input type="range" id="force-slider-whiteWhite" min="-1" max="1" step="0.01" value="0">
+                <span id="force-value-whiteWhite">0</span>
+
+                <h4>White x Red </h4>
+                <label for="force-slider-whiteRed"></label>
+                <input type="range" id="force-slider-whiteRed" min="-1" max="1" step="0.01" value="0">
+                <span id="force-value-whiteRed">0</span>
+
+                <h4>White x Yellow </h4>
+                <label for="force-slider-whiteYellow"></label>
+                <input type="range" id="force-slider-whiteYellow" min="-1" max="1" step="0.01" value="0">
+                <span id="force-value-whiteYellow">0</span>
+
+                <h4>White x Green </h4>
+                <label for="force-slider-whiteGreen"></label>
+                <input type="range" id="force-slider-whiteGreen" min="-1" max="1" step="0.01" value="0">
+                <span id="force-value-whiteGreen">0</span>
+
+            </div>
+        </div>
     </div>
-    <div class="control-section" id="green-controls">
-        <h3>Green Particles</h3>
-        <label for="size-slider-green">Size:</label>
-        <input type="range" id="size-slider-green" min="1" max="10" value="5">
-        <label for="force-slider-green">Attraction/Repulsion:</label>
-        <input type="range" id="force-slider-green" min="-1" max="1" step="0.1" value="0">
-    </div>
-    <div class="control-section" id="white-controls">
-        <h3>White Particles</h3>
-        <label for="size-slider-white">Size:</label>
-        <input type="range" id="size-slider-white" min="1" max="10" value="5">
-        <label for="force-slider-white">Attraction/Repulsion:</label>
-        <input type="range" id="force-slider-white" min="-1" max="1" step="0.1" value="0">
-    </div>
+
+    
+
     <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.js"></script>
 </body>
 </html>

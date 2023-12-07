@@ -1,158 +1,171 @@
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #eaeaea;
-    color: #333;
+/* Base styles and reset */
+* {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+:root {
+    --primary-color: #1a1a1a;
+    --secondary-color: #ccc;
+    --accent-color: #0a84ff;
+    --hover-color: #555;
+    --button-bg-color: #222;
+    --button-hover-bg-color: #0a84ff;
+    --text-color: #fff;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 100vh;
 }
 
-h1 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 2.5em; /* 40px */
-    color: #444;
-    margin: 0.5em 0;
-}
-
-h2 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.5em; /* 24px */
-    color: #555;
-    margin: 0.25em 0;
-}
-
-/* Additional styles for other headings if needed */
-h3, h4, h5, h6 {
-    font-family: 'Orbitron', sans-serif;
-    color: #666;
-    margin-top: 0.5em;
+.header-container h1, .header-container h4, .header-container p {
+    color: var(--text-color);
     margin-bottom: 0.5em;
 }
 
-canvas {
-    display: block;
-    margin: 20px auto;
-    border: 2px solid #333;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    background: #fff;
-    transition: transform 0.3s ease-in-out;
+.header-container p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    max-width: 800px;
+    margin: auto;
 }
 
-canvas:hover {
-    transform: scale(1.05);
+.main-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: start;
+}
+
+#life {
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    border: 2px solid #333;
+}
+
+.slider-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    max-width: 300px;
+}
+
+/* Slider styles */
+input[type="range"] {
+    -webkit-appearance: none;
+    flex: 1;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--hover-color);
+    outline: none;
+    transition: background 0.3s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--secondary-color);
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+/* Other browser thumb styles omitted for brevity */
+
+input[type="range"]:hover::-webkit-slider-thumb,
+input[type="range"]:focus::-webkit-slider-thumb {
+    background: var(--text-color);
+}
+
+input[type="range"]:hover,
+input[type="range"]:focus {
+    background: var(--accent-color);
 }
 
 .control-section {
-    width: 90%;
-    max-width: 600px;
-    margin: 10px auto;
-    padding: 20px;
-    background: #fff;
-    border: 1px solid #ccc;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    transition: background-color 0.3s ease-in-out;
-}
-
-.control-section:hover {
-    background-color: #f5f5f5;
+    background: #333;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: 0.8rem;
 }
 
 .control-section h3 {
-    margin-bottom: 10px;
-    text-align: left;
-    color: #333;
-    font-weight: normal;
+    color: var(--secondary-color);
+    margin-bottom: 5px;
+    font-size: 1rem;
 }
 
-label {
-    display: block;
-    margin: 10px 0;
-    color: #666;
-    transition: color 0.3s ease-in-out;
+.control-section label {
+    color: var(--secondary-color);
+    flex: 0 1 30%;
+    margin-right: 5px;
 }
 
-label:hover {
-    color: #333;
+.control-section span {
+    flex: 0 1 50px;
+    text-align: right;
 }
 
-input[type=range] {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 8px;
-    background: #ddd;
-    outline: none;
+/* Responsive design adjustments */
+@media (max-width: 1200px) {
+    .main-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #life {
+        width: 100%;
+        max-width: 800px;
+        height: auto;
+        margin-bottom: 20px;
+    }
+
+    .slider-container {
+        width: 100%;
+    }
+}
+
+button {
+    background-color: var(--button-bg-color);
+    color: var(--text-color);
+    border: none;
+    padding: 10px 15px;
+    margin: 5px;
     border-radius: 5px;
-    background-image: linear-gradient(to right, #0f0c29, #302b63, #24243e);
-    transition: background-image 0.3s ease-in-out;
-}
-
-input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: #333;
+    font-size: 1rem;
+    transition: all 0.3s ease;
     cursor: pointer;
-    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
 
-input[type=range]::-webkit-slider-thumb:hover {
-    transform: scale(1.15);
-    background-color: #666;
+button:hover, button:focus {
+    background-color: var(--button-hover-bg-color);
+    color: #0f0;
+    transform: scale(1.05);
 }
 
-input[type=range]::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: #333;
-    cursor: pointer;
-    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+p {
+    margin-bottom: 1em;
+    line-height: 1.6;
 }
 
-input[type=range]::-moz-range-thumb:hover {
-    transform: scale(1.15);
-    background-color: #666;
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
 }
 
-input[type=range]:hover,
-input[type=range]:focus {
-    opacity: 1;
-    background-image: linear-gradient(to right, #4e4376, #2b5876);
-}
-
-@media (max-width: 768px) {
-    body {
-        padding: 10px;
-        height: auto;
-        align-items: stretch;
-    }
-
-    h1 {
-        font-size: 2em; /* 32px for smaller screens */
-    }
-
-    h2 {
-        font-size: 1.2em; /* 19px for smaller screens */
-    }
-
-    canvas {
-        width: 100%;
-        height: auto;
-    }
-
-    .control-section {
-        width: 100%;
-    }
-
-    input[type=range] {
-        -webkit-appearance: none;
-        margin: 0;
-    }
+.button-container button {
+    width: auto;
 }
