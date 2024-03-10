@@ -1,3 +1,14 @@
+const collapsibleHeader = document.querySelector('.collapsible-header');
+const collapsibleContent = document.querySelector('.collapsible-content');
+
+collapsibleHeader.addEventListener('click', function() {
+    this.classList.toggle('active');
+    if (collapsibleContent.style.maxHeight) {
+        collapsibleContent.style.maxHeight = null;
+    } else {
+        collapsibleContent.style.maxHeight = collapsibleContent.scrollHeight + 'px';
+    }
+});
 
 const controlsBtn = document.querySelector('.controls-btn');
 const controlsClose = document.querySelector('.controls-close');
