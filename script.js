@@ -1,3 +1,4 @@
+
 const controlsBtn = document.querySelector('.controls-btn');
 const controlsClose = document.querySelector('.controls-close');
 const controlsPanel = document.querySelector('.controls-panel');
@@ -14,43 +15,30 @@ controlsClose.addEventListener('click', () => {
     overlay.classList.remove('active');
 });
 
-// Toggle controls panel
-
-
-
-// document.getElementById('toggleControls').addEventListener('click', function() {
-//     const advancedControls = document.querySelector('.advanced-controls');
-//     advancedControls.style.display = advancedControls.style.display === 'none' ? 'block' : 'none';
-// });
-
 let speedFactor = 1;
 
-let redRedForce = 0;    // Repulsion between red particles
-let redGreenForce = 0;     // Attraction between red and green particles
-let redYellowForce = 0;  // Weak attraction between red and yellow particles
-let redWhiteForce = 0;    // Strong repulsion between red and white particles
+let redRedForce = 0;
+let redGreenForce = 0;
+let redYellowForce = 0;
+let redWhiteForce = 0;
 
-let greenRedForce = 0;     // Attraction between green and red particles
-let greenGreenForce = 0; // Repulsion between green particles
-let greenYellowForce = 0; // Strong repulsion between green and yellow particles
-let greenWhiteForce = 0; // Weak attraction between green and white particles
+let greenRedForce = 0;
+let greenGreenForce = 0;
+let greenYellowForce = 0;
+let greenWhiteForce = 0;
 
-let yellowRedForce = 0;  // Weak attraction between yellow and red particles
-let yellowGreenForce = 0; // Strong repulsion between yellow and green particles
-let yellowYellowForce = 0; // Repulsion between yellow particles
-let yellowWhiteForce = 0;  // Attraction between yellow and white particles
+let yellowRedForce = 0;
+let yellowGreenForce = 0;
+let yellowYellowForce = 0;
+let yellowWhiteForce = 0;
 
-let whiteRedForce = 0;    // Strong repulsion between white and red particles
-let whiteGreenForce = 0; // Weak attraction between white and green particles
-let whiteYellowForce = 0;  // Attraction between white and yellow particles
-let whiteWhiteForce = 0; // Repulsion between white particles
+let whiteRedForce = 0;
+let whiteGreenForce = 0;
+let whiteYellowForce = 0;
+let whiteWhiteForce = 0;
 
-
-
-// Get canvas context
 let m = document.getElementById("life").getContext('2d');
 
-// Function to draw a particle
 function drawPracticle(x, y, c, s) {
     m.fillStyle = c;
     m.beginPath();
@@ -58,26 +46,21 @@ function drawPracticle(x, y, c, s) {
     m.fill();
 }
 
-// Function to draw a square (used for the canvas background)
 function draw(x, y, c, s = 5) {
     m.fillStyle = c;
     m.fillRect(x, y, s, s);
 }
 
-// Array to store particles
 let particles = [];
 
-// Function to create a particle
 function particle(x, y, c, s = 5) {
     return { "x": x, "y": y, "vx": 0, "vy": 0, "color": c, "size": s };
 }
 
-// Function to generate a random position
 function random() {
     return Math.random() * 1000;
 }
 
-// Function to create a group of particles
 function create(number, color, size) {
     let group = [];
     for (let i = 0; i < number; i++) {
@@ -86,7 +69,7 @@ function create(number, color, size) {
     }
     return group;
 }
-// Gravitational rule function
+
 function rule(particles1, particles2, force) {
     for (let i = 0; i < particles1.length; i++) {
         let a = particles1[i];
@@ -116,38 +99,32 @@ function rule(particles1, particles2, force) {
     }
 }
 
-// Create particle groups
 let red = create(1000, "red", 5);
 let green = create(1000, "green", 5);
 let yellow = create(1000, "yellow", 5);
 let white = create(1000, "white", 5);
 
-// Update function with rules for particle interaction
 function update() {
     rule(red, red, redRedForce);
     rule(red, green, redGreenForce);
     rule(red, yellow, redYellowForce);
     rule(red, white, redWhiteForce);
 
-    // Rules for green particles interacting with all colors
     rule(green, red, greenRedForce);
     rule(green, green, greenGreenForce);
     rule(green, yellow, greenYellowForce);
     rule(green, white, greenWhiteForce);
 
-    // Rules for yellow particles interacting with all colors
     rule(yellow, red, yellowRedForce);
     rule(yellow, green, yellowGreenForce);
     rule(yellow, yellow, yellowYellowForce);
     rule(yellow, white, yellowWhiteForce);
 
-    // Rules for white particles interacting with all colors
     rule(white, red, whiteRedForce);
     rule(white, green, whiteGreenForce);
     rule(white, yellow, whiteYellowForce);
     rule(white, white, whiteWhiteForce);
 
-    // Clear and redraw canvas
     m.clearRect(0, 0, 1000, 1000);
     draw(0, 0, "black", 1000);
     for (let i = 0; i < particles.length; i++) {
@@ -156,9 +133,8 @@ function update() {
     requestAnimationFrame(update);
 }
 
-// Start the animation loop
 update();
-// Function to update particle size based on slider input
+
 function updateParticleSize(color, newSize) {
     for (let i = 0; i < particles.length; i++) {
         if (particles[i].color === color) {
@@ -166,7 +142,6 @@ function updateParticleSize(color, newSize) {
         }
     }
 }
-
 
 document.getElementById('force-slider-redRed').addEventListener('input', (event) => {
     redRedForce = parseFloat(event.target.value);
@@ -238,12 +213,8 @@ document.getElementById('force-slider-whiteWhite').addEventListener('input', (ev
     localStorage.setItem('whiteWhiteForce', whiteWhiteForce);
 });
 
-
-// Event listeners for slider controls
-// Event listeners for slider controls
 document.addEventListener("DOMContentLoaded", function () {
     ['red', 'green', 'yellow', 'white'].forEach(color => {
-        // Size slider event listener
         document.getElementById(`size-slider-${color}`).addEventListener('input', (event) => {
             let value = parseInt(event.target.value);
             updateParticleSize(color, value);
@@ -254,96 +225,52 @@ document.addEventListener("DOMContentLoaded", function () {
     loadSliderValues();
 });
 
-// Speed factor slider event listener
 document.getElementById('speedFactor-slider').addEventListener('input', (event) => {
     speedFactor = parseFloat(event.target.value);
     localStorage.setItem('speedFactor', speedFactor);
 });
 
-// Load saved speed factor value
 if (localStorage.getItem('speedFactor')) {
     speedFactor = parseFloat(localStorage.getItem('speedFactor'));
     document.getElementById('speedFactor-slider').value = speedFactor;
 }
-document.addEventListener("DOMContentLoaded", function () {
-    // Function to update slider value display
-    function updateSliderValue(sliderId, valueId) {
-        var slider = document.getElementById(sliderId);
-        var valueDisplay = document.getElementById(valueId);
-        valueDisplay.textContent = slider.value;
-
-        slider.oninput = function () {
-            valueDisplay.textContent = this.value;
-        };
-    }
-    // Initialize slider value displays for each control section
-    updateSliderValue('speedFactor-slider', 'speedFactor-value');
-    updateSliderValue('size-slider-red', 'size-value-red');
-    updateSliderValue('force-slider-redRed', 'force-value-redRed');
-    updateSliderValue('force-slider-redYellow', 'force-value-redYellow');
-    updateSliderValue('force-slider-redGreen', 'force-value-redGreen');
-    updateSliderValue('force-slider-redWhite', 'force-value-redWhite');
-    // ... repeat for each slider ...
-
-    updateSliderValue('size-slider-yellow', 'size-value-yellow');
-    updateSliderValue('force-slider-yellowYellow', 'force-value-yellowYellow');
-    updateSliderValue('force-slider-yellowRed', 'force-value-yellowRed');
-    updateSliderValue('force-slider-yellowGreen', 'force-value-yellowGreen');
-    updateSliderValue('force-slider-yellowWhite', 'force-value-yellowWhite');
-    // ... repeat for each slider ...
-
-    updateSliderValue('size-slider-green', 'size-value-green');
-    updateSliderValue('force-slider-greenGreen', 'force-value-greenGreen');
-    updateSliderValue('force-slider-greenRed', 'force-value-greenRed');
-    updateSliderValue('force-slider-greenYellow', 'force-value-greenYellow');
-    updateSliderValue('force-slider-greenWhite', 'force-value-greenWhite');
-    // ... repeat for each slider ...
-
-    updateSliderValue('size-slider-white', 'size-value-white');
-    updateSliderValue('force-slider-whiteWhite', 'force-value-whiteWhite');
-    updateSliderValue('force-slider-whiteRed', 'force-value-whiteRed');
-    updateSliderValue('force-slider-whiteYellow', 'force-value-whiteYellow');
-    updateSliderValue('force-slider-whiteGreen', 'force-value-whiteGreen');
-    // ... repeat for each slider ...
-});
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Function to update slider value, position, and color
-    function updateSliderValueAndColor(sliderId, valueId) {
-        var slider = document.getElementById(sliderId);
-        var valueDisplay = document.getElementById(valueId);
-        valueDisplay.textContent = slider.value;
+    function updateSliderValue(sliderId) {
+        const slider = document.getElementById(sliderId);
+        const sliderThumb = slider.querySelector('::-webkit-slider-thumb');
 
-        // Set the initial color
-        valueDisplay.style.color = getSliderColor(slider.value);
+        sliderThumb.setAttribute('data-value', slider.value);
 
         slider.oninput = function () {
-            valueDisplay.textContent = this.value;
-            valueDisplay.style.color = getSliderColor(this.value);
-
-            // Calculate the position offset for the label
-            var valueRatio = (this.value - this.min) / (this.max - this.min);
-            var offset = valueRatio * (this.offsetWidth - 15); // 15 is the thumb width
-            valueDisplay.style.left = offset + 'px';
+            sliderThumb.setAttribute('data-value', this.value);
         };
     }
 
-    // Function to determine the color based on the slider value
-    function getSliderColor(value) {
-        var minColor = [0, 0, 255]; // Blue
-        var maxColor = [255, 0, 0]; // Red
-        var ratio = value / 10; // Assuming the slider max is 100
+    updateSliderValue('speedFactor-slider');
+    updateSliderValue('size-slider-red');
+    updateSliderValue('force-slider-redRed');
+    updateSliderValue('force-slider-redYellow');
+    updateSliderValue('force-slider-redGreen');
+    updateSliderValue('force-slider-redWhite');
 
-        var newColor = minColor.map(function (component, index) {
-            return Math.round(component + ratio * (maxColor[index] - component));
-        });
+    updateSliderValue('size-slider-yellow');
+    updateSliderValue('force-slider-yellowYellow');
+    updateSliderValue('force-slider-yellowRed');
+    updateSliderValue('force-slider-yellowGreen');
+    updateSliderValue('force-slider-yellowWhite');
 
-        return 'rgb(' + newColor.join(',') + ')';
-    }
+    updateSliderValue('size-slider-green');
+    updateSliderValue('force-slider-greenGreen');
+    updateSliderValue('force-slider-greenRed');
+    updateSliderValue('force-slider-greenYellow');
+    updateSliderValue('force-slider-greenWhite');
 
-    // Initialize for each slider
-    // updateSliderValueAndColor('size-slider-red', 'size-value-red');
-    // ... Repeat for each slider you want to have this effect ...
+    updateSliderValue('size-slider-white');
+    updateSliderValue('force-slider-whiteWhite');
+    updateSliderValue('force-slider-whiteRed');
+    updateSliderValue('force-slider-whiteYellow');
+    updateSliderValue('force-slider-whiteGreen');
 });
 
 document.getElementById('ChromaticDynamics').addEventListener('click', () => {

@@ -127,6 +127,7 @@ main {
     align-items: center;
     gap: 10px;
     margin-bottom: 10px;
+    position: relative;
 }
 
 .slider-group label {
@@ -143,6 +144,7 @@ main {
     background-color: #ddd;
     outline: none;
     border-radius: 5px;
+    width: 100%;
 }
 
 .slider-group input[type="range"]::-webkit-slider-thumb {
@@ -152,8 +154,16 @@ main {
     background-color: #333;
     border-radius: 50%;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 12px;
 }
 
+.slider-group input[type="range"]::-webkit-slider-thumb::before {
+    content: attr(data-value);
+}
 .preset-btn:hover::after {
     opacity: 1;
 }
@@ -221,18 +231,20 @@ main {
 }
 .controls-panel {
     position: fixed;
-    top: 80px;
-    right: -300px;
-    width: 300px;
-    height: calc(100vh - 80px);
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 300px; /* Ensure it fits on small screens */
+    height: 100%;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    transition: right 0.3s;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
     z-index: 10;
 }
 
 .controls-panel.active {
-    right: 0;
+    transform: translateX(0);
 }
 
 .controls-header {
@@ -255,7 +267,6 @@ main {
 .controls-content {
     padding: 20px;
     overflow-y: auto;
-    height: 100%;
 }
 
 .overlay {
