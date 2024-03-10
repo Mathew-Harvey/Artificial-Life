@@ -1,185 +1,252 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <title>Artificial Life Simulation</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.css" rel="stylesheet">
 </head>
+
 <body>
-    <div class="header-container">
-        <h1>Welcome to the Edge of Complexity</h1>
-        <h4>Discover the Unseen Universe of Patterns and Rules</h4>
-        <p id="dynamic-text">In a world governed by complexity, the simplest rules can unfold into the most intricate patterns. This is the realm of emergent complexity - a journey into the heart of systems where the whole is far more than just the sum of its parts. From the swirling patterns of a galaxy to the delicate structure of a snowflake, complexity surrounds us.
+    <header>
+        <nav>
+            <div class="logo">Artificial Life</div>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#simulation">Simulation</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+        </nav>
+        <div class="header-content">
+            <h1>Welcome to the Edge of Complexity</h1>
+            <p>Discover the Unseen Universe of Patterns and Rules</p>
+            <a href="#simulation" class="btn">Start Exploring</a>
+        </div>
+    </header>
 
-           <h4>Embark on an Odyssey with Pioneers of Thought</h4> 
-            
-            Join us as we delve into the groundbreaking ideas of Stephen Wolfram and John Conway, visionaries who unraveled the mysteries of complex systems with simple, yet profound insights.
-            
-            <b>Stephen Wolfram's Universe:</b> Venture into Wolfram's world of cellular automata and explore how simple computational processes can lead to unexpected and intricate patterns. His work challenges our understanding of the universe, suggesting that the complexities of nature might arise from simple, algorithmic rules.
-            
-            <b>John Conway's Game of Life:</b> Step into Conway's iconic 'Game of Life', a captivating cellular automaton that simulates life, death, and survival on a digital plane. Witness how basic rules can lead to an astonishing variety of outcomes, mirroring the unpredictability and diversity of life itself.
-            
-            <h4>Experience the Magic of Simple Rules Leading to Complex Behaviors</h4>
-            
-            Our platform is more than just a gateway to theories; it's an interactive canvas where you can experiment, create, and visualize the stunning beauty of emergent complexity. Dive into interactive simulations, engage with intuitive explanations, and see firsthand how simple algorithms can create patterns of immense complexity.
-            
-            <h4>Join Us in the Dance of Complexity and Simplicity</h4>
-            
-            Whether you're a curious mind, a passionate educator, or a visionary thinker, this journey is for you. Uncover the elegance of simplicity underlying our complex world, and be inspired by the endless possibilities that simple rules can unleash.
-            
-            Welcome to a Universe of Unimagined Possibilities. Welcome to the Edge of Complexity.</p>
-    </div>
+    <main>
+        <section id="simulation">
+            <div class="container">
+                <div class="buttons">
+                    <button id="ChromaticDynamics" class="preset-btn"
+                        data-tooltip="Explore the interplay of color and motion">Chromatic Dynamics</button>
+                    <button id="HarmonicFlux" class="preset-btn"
+                        data-tooltip="Witness the ebb and flow of harmonious forces">Harmonic Flux</button>
+                    <button id="VibrantMosaic" class="preset-btn"
+                        data-tooltip="Marvel at the intricate patterns of life">Vibrant Mosaic</button>
+                    <button id="CosmicKaleidoscope" class="preset-btn"
+                        data-tooltip="Peer into the kaleidoscopic dance of the cosmos">Cosmic Kaleidoscope</button>
+                    <button id="EtherealWeave" class="preset-btn"
+                        data-tooltip="Behold the delicate fabric of existence">Ethereal Weave</button>
+                    <button id="CellularHarmony" class="preset-btn"
+                        data-tooltip="Observe the symphony of cellular interactions">Cellular Harmony</button>
+                    <button id="Automata" class="preset-btn"
+                        data-tooltip="Explore the emergent complexity of simple rules">Automata Artistry</button>
+                    <button id="EvolvingEntity" class="preset-btn"
+                        data-tooltip="Witness the evolution of digital lifeforms">Evolving Entity</button>
+                    <button id="HarmoniousEntity" class="preset-btn"
+                        data-tooltip="Experience the balance and harmony of digital life">Harmonious Entity</button>
+                </div>
+                <div class="simulation-container">
+                    <canvas id="life" width="1000" height="1000"></canvas>
+                    <button class="controls-btn" aria-label="Open Controls" title="Click to open the controls panel"><i class="fas fa-sliders-h"></i></button>
+                </div>            
+            </section>
 
-    <div class="main-container">
-        <div class="button-container">
-
-        <button id="ChromaticDynamics">Chromatic Dynamics</button>
-        <button id="HarmonicFlux">Harmonic Flux</button>
-        <button id="VibrantMosaic">Vibrant Mosaic</button>
-        <button id="CosmicKaleidoscope">Cosmic Kaleidoscope</button>
-        <button id="EtherealWeave">Ethereal Weave</button>
-        <button id="CellularHarmony">Cellular Harmony</button>
-        <button id="Automata">Automata Artistry</button>
-        <button id="EvolvingEntity">Evolving Entity</button>
-        <button id="HarmoniousEntity">Harmonious Entity</button>
-    </div>
-        <canvas id="life" width="900" height="900"></canvas>
-
-        <div class="slider-container">
-            <!-- Speed Control Section -->
-            <div class="control-section">
-                <label for="speedFactor-slider">Speed Control:</label>
-                <input type="range" id="speedFactor-slider" min="0.1" max="1" value="1" step="0.1">
-                <span id="speedFactor-value">1</span>
+        <div class="controls-panel">
+            <div class="controls-header">
+                <h3>Controls</h3>
+                <button class="controls-close" aria-label="Close Controls">&times;</button>
             </div>
+            <div class="controls-content">
+                <div class="basic-controls">
+                    <h3>Basic Controls</h3>
+                    <div class="slider-group">
+                        <label for="speedFactor-slider">Speed</label>
+                        <input type="range" id="speedFactor-slider" min="0.1" max="1" step="0.1" value="1">
+                        <span id="speedFactor-value">1</span>
+                    </div>
+                </div>
+                <div class="advanced-controls">
+                    <h3>Advanced Controls</h3>
+                    <div class="control-grid">
 
-            <!-- Red Controls Section -->
-            <div class="control-section" id="red-controls">
-
-                <h3>Red Particles</h3>
-                <label for="size-slider-red"></label>
-                <input type="range" id="size-slider-red" min="1" max="10" value="5">
-                <span id="size-value-red">5</span>
-
-                <h4>Red x Red </h4>
-                <label for="force-slider-redRed"></label>
-                <input type="range" id="force-slider-redRed" min="-1" max="1" step="0.01" value="0">
-                <span id="force-value-redRed">0</span>
-
-                <h4>Red x Green </h4>
-                <label for="force-slider-redGreen"></label>
-                <input type="range" id="force-slider-redGreen" min="-1" max="1" step="0.01" value="0">
-                <span id="force-value-redGreen">0</span>
-
-                <h4>Red x Yellow </h4>
-                <label for="force-slider-redYellow"></label>
-                <input type="range" id="force-slider-redYellow" min="-1" max="1" step="0.01" value="0">
-                <span id="force-value-redYellow">0</span>
-
-                <h4>Red x White </h4>
-                <label for="force-slider-redWhite"></label>
-                <input type="range" id="force-slider-redWhite" min="-1" max="1" step="0.01" value="0">
-                <span id="force-value-redWhite">0</span>
-            </div>
-
-
-
-
-            <div class="control-section" id="yellow-controls">
-                <h3>Yellow Particles</h3>
-                <label for="size-slider-yellow"></label>
-                <input type="range" id="size-slider-yellow" min="1" max="10" value="5">
-                <span id="size-value-yellow">5</span>
-
-                <h4>Yellow x Yellow </h4>
-                <label for="force-slider-yellowYellow"></label>
-                <input type="range" id="force-slider-yellowYellow" min="-1" max="1" step="0.01" value="0">
-                <span id="force-value-yellowYellow">0</span>
-
-                <h4>Yellow x Red </h4>
-                <label for="force-slider-yellowRed"></label>
-                <input type="range" id="force-slider-yellowRed" min="-1" max="1" step="0.01" value="0">
-                <span id="force-value-yellowRed">0</span>
-                
-                <h4>Yellow x Green </h4>
-                <label for="force-slider-yellowGreen"></label>
-                <input type="range" id="force-slider-yellowGreen" min="-1" max="1" step="0.01" value="0">
-                <span id="force-value-yellowGreen">0</span>
-
-                <h4>Yellow x White </h4>
-                <label for="force-slider-yellowWhite"></label>
-                <input type="range" id="force-slider-yellowWhite" min="-1" max="1" step="0.01" value="0">
-                <span id="force-value-yellowWhite">0</span>  
-
-            </div>
-
-
-            <div class="control-section" id="green-controls">
-                <h3>Green Particles</h3>
-                <label for="size-slider-green"></label>
-                <input type="range" id="size-slider-green" min="1" max="10" value="5">
-                <span id="size-value-green">5</span>
-
-                <h4>Green x Green </h4>
-                <label for="force-slider-greenGreen"></label>
-                <input type="range" id="force-slider-greenGreen" min="-1" max="1" step="0.01" value="0">
-                <span id="force-value-greenGreen">0</span>
-                
-                <h4>Green x Red </h4>
-                <label for="force-slider-greenRed"></label>
-                <input type="range" id="force-slider-greenRed" min="-1" max="1" step="0.01" value="0">
-                <span id="force-value-greenRed">0</span>
-
-                <h4>Green x Yellow </h4>
-                <label for="force-slider-greenYellow"></label>
-                <input type="range" id="force-slider-greenYellow" min="-1" max="1" step="0.01" value="0">
-                <span id="force-value-greenYellow">0</span>
-
-                <h4>Green x White </h4>
-                <label for="force-slider-greenWhite"></label>
-                <input type="range" id="force-slider-greenWhite" min="-1" max="1" step="0.01" value="0">
-                <span id="force-value-greenWhite">0</span>
-
-            </div>
-
-
-            <div class="control-section" id="white-controls">
-                <h3>White Particles</h3>
-                <label for="size-slider-white"></label>
-                <input type="range" id="size-slider-white" min="1" max="10" value="5">
-                <span id="size-value-white">5</span>
-
-                <h4>White x White </h4>
-                <label for="force-slider-whiteWhite"></label>
-                <input type="range" id="force-slider-whiteWhite" min="-1" max="1" step="0.01" value="0">
-                <span id="force-value-whiteWhite">0</span>
-
-                <h4>White x Red </h4>
-                <label for="force-slider-whiteRed"></label>
-                <input type="range" id="force-slider-whiteRed" min="-1" max="1" step="0.01" value="0">
-                <span id="force-value-whiteRed">0</span>
-
-                <h4>White x Yellow </h4>
-                <label for="force-slider-whiteYellow"></label>
-                <input type="range" id="force-slider-whiteYellow" min="-1" max="1" step="0.01" value="0">
-                <span id="force-value-whiteYellow">0</span>
-
-                <h4>White x Green </h4>
-                <label for="force-slider-whiteGreen"></label>
-                <input type="range" id="force-slider-whiteGreen" min="-1" max="1" step="0.01" value="0">
-                <span id="force-value-whiteGreen">0</span>
-
+                        <div class="control-section">
+                            <h3>Red Particles</h3>
+                            <div class="slider-group">
+                                <label for="size-slider-red">Size</label>
+                                <input type="range" id="size-slider-red" min="1" max="10" value="5">
+                                <span id="size-value-red">5</span>
+                            </div>
+                            <div class="slider-group">
+                                <label for="force-slider-redRed">Red x Red</label>
+                                <input type="range" id="force-slider-redRed" min="-1" max="1" step="0.01" value="0">
+                                <span id="force-value-redRed">0</span>
+                            </div>
+                            <div class="slider-group">
+                                <label for="force-slider-redGreen">Red x Green</label>
+                                <input type="range" id="force-slider-redGreen" min="-1" max="1" step="0.01" value="0">
+                                <span id="force-value-redGreen">0</span>
+                            </div>
+                            <div class="slider-group">
+                                <label for="force-slider-redYellow">Red x Yellow</label>
+                                <input type="range" id="force-slider-redYellow" min="-1" max="1" step="0.01" value="0">
+                                <span id="force-value-redYellow">0</span>
+                            </div>
+                            <div class="slider-group">
+                                <label for="force-slider-redWhite">Red x White</label>
+                                <input type="range" id="force-slider-redWhite" min="-1" max="1" step="0.01" value="0">
+                                <span id="force-value-redWhite">0</span>
+                            </div>
+                        </div>
+                        <div class="control-section">
+                            <h3>Green Particles</h3>
+                            <div class="slider-group">
+                                <label for="size-slider-green">Size</label>
+                                <input type="range" id="size-slider-green" min="1" max="10" value="5">
+                                <span id="size-value-green">5</span>
+                            </div>
+                            <div class="slider-group">
+                                <label for="force-slider-greenGreen">Green x Green</label>
+                                <input type="range" id="force-slider-greenGreen" min="-1" max="1" step="0.01" value="0">
+                                <span id="force-value-greenGreen">0</span>
+                            </div>
+                            <div class="slider-group">
+                                <label for="force-slider-greenRed">Green x Red</label>
+                                <input type="range" id="force-slider-greenRed" min="-1" max="1" step="0.01" value="0">
+                                <span id="force-value-greenRed">0</span>
+                            </div>
+                            <div class="slider-group">
+                                <label for="force-slider-greenYellow">Green x Yellow</label>
+                                <input type="range" id="force-slider-greenYellow" min="-1" max="1" step="0.01"
+                                    value="0">
+                                <span id="force-value-greenYellow">0</span>
+                            </div>
+                            <div class="slider-group">
+                                <label for="force-slider-greenWhite">Green x White</label>
+                                <input type="range" id="force-slider-greenWhite" min="-1" max="1" step="0.01" value="0">
+                                <span id="force-value-greenWhite">0</span>
+                            </div>
+                        </div>
+                        <div class="control-section">
+                            <h3>Yellow Particles</h3>
+                            <div class="slider-group">
+                                <label for="size-slider-yellow">Size</label>
+                                <input type="range" id="size-slider-yellow" min="1" max="10" value="5">
+                                <span id="size-value-yellow">5</span>
+                            </div>
+                            <div class="slider-group">
+                                <label for="force-slider-yellowYellow">Yellow x Yellow</label>
+                                <input type="range" id="force-slider-yellowYellow" min="-1" max="1" step="0.01"
+                                    value="0">
+                                <span id="force-value-yellowYellow">0</span>
+                            </div>
+                            <div class="slider-group">
+                                <label for="force-slider-yellowRed">Yellow x Red</label>
+                                <input type="range" id="force-slider-yellowRed" min="-1" max="1" step="0.01" value="0">
+                                <span id="force-value-yellowRed">0</span>
+                            </div>
+                            <div class="slider-group">
+                                <label for="force-slider-yellowGreen">Yellow x Green</label>
+                                <input type="range" id="force-slider-yellowGreen" min="-1" max="1" step="0.01"
+                                    value="0">
+                                <span id="force-value-yellowGreen">0</span>
+                            </div>
+                            <div class="slider-group">
+                                <label for="force-slider-yellowWhite">Yellow x White</label>
+                                <input type="range" id="force-slider-yellowWhite" min="-1" max="1" step="0.01"
+                                    value="0">
+                                <span id="force-value-yellowWhite">0</span>
+                            </div>
+                        </div>
+                        <div class="control-section">
+                            <h3>White Particles</h3>
+                            <div class="slider-group">
+                                <label for="size-slider-white">Size</label>
+                                <input type="range" id="size-slider-white" min="1" max="10" value="5">
+                                <span id="size-value-white">5</span>
+                            </div>
+                            <div class="slider-group">
+                                <label for="force-slider-whiteWhite">White x White</label>
+                                <input type="range" id="force-slider-whiteWhite" min="-1" max="1" step="0.01" value="0">
+                                <span id="force-value-whiteWhite">0</span>
+                            </div>
+                            <div class="slider-group">
+                                <label for="force-slider-whiteRed">White x Red</label>
+                                <input type="range" id="force-slider-whiteRed" min="-1" max="1" step="0.01" value="0">
+                                <span id="force-value-whiteRed">0</span>
+                            </div>
+                            <div class="slider-group">
+                                <label for="force-slider-whiteYellow">White x Yellow</label>
+                                <input type="range" id="force-slider-whiteYellow" min="-1" max="1" step="0.01"
+                                    value="0">
+                                <span id="force-value-whiteYellow">0</span>
+                            </div>
+                            <div class="slider-group">
+                                <label for="force-slider-whiteGreen">White x Green</label>
+                                <input type="range" id="force-slider-whiteGreen" min="-1" max="1" step="0.01" value="0">
+                                <span id="force-value-whiteGreen">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-    
+        <div class="overlay"></div>
+
+        <section id="about">
+            <div class="container">
+                <h2>About the Simulation</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>In a world governed by complexity, the simplest rules can unfold into the most intricate
+                            patterns. This is the realm of emergent complexity - a journey into the heart of systems
+                            where the whole is far more than just the sum of its parts.</p>
+                        <p>Embark on an odyssey with pioneers of thought like Stephen Wolfram and John Conway,
+                            visionaries who unraveled the mysteries of complex systems with simple, yet profound
+                            insights.</p>
+                        <p>Our platform is more than just a gateway to theories; it's an interactive canvas where you
+                            can experiment, create, and visualize the stunning beauty of emergent complexity.</p>
+                    </div>
+                    <div class="about-images">
+                        <img src="wolfram.jpg" alt="Stephen Wolfram">
+                        <img src="conway.jpg" alt="John Conway">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="#">Resources</a>
+                    <a href="#">Contact</a>
+                    <a href="#">FAQ</a>
+                </div>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+                <div class="footer-newsletter">
+                    <h4>Subscribe to Our Newsletter</h4>
+                    <form>
+                        <input type="email" placeholder="Your email address">
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <p>&copy; 2024 Artificial Life Simulation. All rights reserved.</p>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.js"></script>
 </body>
+
 </html>

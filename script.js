@@ -1,4 +1,27 @@
+const controlsBtn = document.querySelector('.controls-btn');
+const controlsClose = document.querySelector('.controls-close');
+const controlsPanel = document.querySelector('.controls-panel');
+const simulationContainer = document.querySelector('.simulation-container');
+const overlay = document.querySelector('.overlay');
 
+controlsBtn.addEventListener('click', () => {
+    controlsPanel.classList.add('active');
+    overlay.classList.add('active');
+});
+
+controlsClose.addEventListener('click', () => {
+    controlsPanel.classList.remove('active');
+    overlay.classList.remove('active');
+});
+
+// Toggle controls panel
+
+
+
+// document.getElementById('toggleControls').addEventListener('click', function() {
+//     const advancedControls = document.querySelector('.advanced-controls');
+//     advancedControls.style.display = advancedControls.style.display === 'none' ? 'block' : 'none';
+// });
 
 let speedFactor = 1;
 
