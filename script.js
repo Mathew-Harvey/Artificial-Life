@@ -63,6 +63,8 @@ function draw(x, y, c, s = 5) {
 }
 
 let particles = [];
+let activeDynamicPreset = null;
+let presetPhase = 0;
 
 function particle(x, y, c, s = 5) {
     return { "x": x, "y": y, "vx": 0, "vy": 0, "color": c, "size": s };
@@ -116,6 +118,8 @@ let yellow = create(1000, "yellow", 5);
 let white = create(1000, "white", 5);
 
 function update() {
+    applyDynamicPresetForces();
+
     rule(red, red, redRedForce);
     rule(red, green, redGreenForce);
     rule(red, yellow, redYellowForce);
@@ -141,6 +145,7 @@ function update() {
     for (let i = 0; i < particles.length; i++) {
         drawPracticle(particles[i].x, particles[i].y, particles[i].color, particles[i].size);
     }
+    presetPhase += 0.01;
     requestAnimationFrame(update);
 }
 
@@ -283,6 +288,72 @@ document.addEventListener("DOMContentLoaded", function () {
     updateSliderValue('force-slider-whiteYellow');
     updateSliderValue('force-slider-whiteGreen');
 });
+
+// Any preset click disables dynamic modulation by default.
+// Dynamic presets explicitly re-enable their own behavior.
+document.querySelectorAll('.preset-btn').forEach((button) => {
+    button.addEventListener('click', () => {
+        activeDynamicPreset = null;
+    });
+});
+
+function applyDynamicPresetForces() {
+    if (activeDynamicPreset === 'PrismaticTide') {
+        const waveA = Math.sin(presetPhase * 0.7);
+        const waveB = Math.sin(presetPhase * 1.1 + 1.3);
+
+        redRedForce = -0.05 + waveA * 0.08;
+        redGreenForce = 0.35 + waveB * 0.22;
+        redYellowForce = -0.22 + waveA * 0.18;
+        redWhiteForce = 0.12 + waveB * 0.2;
+
+        greenRedForce = 0.34 - waveB * 0.2;
+        greenGreenForce = -0.05 + waveA * 0.08;
+        greenYellowForce = 0.14 + waveA * 0.2;
+        greenWhiteForce = -0.24 + waveB * 0.2;
+
+        yellowRedForce = -0.2 + waveA * 0.18;
+        yellowGreenForce = 0.12 + waveB * 0.2;
+        yellowYellowForce = -0.05 + waveA * 0.08;
+        yellowWhiteForce = 0.33 - waveB * 0.2;
+
+        whiteRedForce = 0.14 + waveB * 0.2;
+        whiteGreenForce = -0.26 + waveA * 0.18;
+        whiteYellowForce = 0.34 + waveB * 0.22;
+        whiteWhiteForce = -0.05 + waveA * 0.08;
+
+        speedFactor = 0.85 + Math.sin(presetPhase * 0.45) * 0.08;
+    } else if (activeDynamicPreset === 'CathedralBloom') {
+        const pulse = Math.sin(presetPhase * 0.35);
+        const choir = Math.sin(presetPhase * 0.95 + 0.5);
+        const shimmer = Math.sin(presetPhase * 1.6 + 2.1);
+
+        // White builds and relaxes central architecture over long cycles.
+        whiteWhiteForce = -0.34 - pulse * 0.22;
+        whiteRedForce = 0.24 + choir * 0.16;
+        whiteGreenForce = -0.08 + shimmer * 0.14;
+        whiteYellowForce = 0.26 + choir * 0.18;
+
+        // Red and yellow alternately orbit and peel away from white cores.
+        redWhiteForce = -0.28 - choir * 0.2;
+        yellowWhiteForce = -0.3 + choir * 0.2;
+        redYellowForce = -0.14 + shimmer * 0.2;
+        yellowRedForce = -0.14 - shimmer * 0.2;
+
+        // Green behaves like connective tissue, switching between braid and dispersion.
+        greenWhiteForce = -0.22 + pulse * 0.18;
+        greenRedForce = -0.16 + shimmer * 0.2;
+        greenYellowForce = -0.16 - shimmer * 0.2;
+        greenGreenForce = 0.08 + pulse * 0.18;
+
+        redRedForce = 0.1 + pulse * 0.16;
+        redGreenForce = -0.12 + choir * 0.16;
+        yellowYellowForce = 0.1 - pulse * 0.16;
+        yellowGreenForce = -0.12 - choir * 0.16;
+
+        speedFactor = 0.62 + Math.sin(presetPhase * 0.3) * 0.07;
+    }
+}
 
 document.getElementById('ChromaticDynamics').addEventListener('click', () => {
     speedFactor = 1;
@@ -524,5 +595,191 @@ document.getElementById('HarmoniousEntity').addEventListener('click', () => {
     whiteGreenForce = -0.3; // Moderate repulsion from green particles
     whiteYellowForce = 0.3; // Moderate attraction to yellow particles
     whiteWhiteForce = -0.2; // Moderate repulsion among white particles
+});
+
+// ── Claude Opus 4 — 2026 ──────────────────────────────────────────────
+
+document.getElementById('Symbiogenesis').addEventListener('click', () => {
+    // Two organisms, each with a dense core and dispersive shell:
+    //   Organism 1: Red core + Green shell
+    //   Organism 2: Yellow core + White shell
+    // Core strongly attracts shell, but shell only weakly reciprocates (asymmetric chase)
+    // Shells self-repel to stay fluid — creates permanent breathing/pulsing
+    // Inter-organism forces create slow mutual drift without merger
+    speedFactor = 0.9;
+
+    // Red — dense core of Organism 1
+    redRedForce = -0.2;       // cores cluster together
+    redGreenForce = -0.35;    // strongly attract own shell
+    redYellowForce = -0.08;   // faint attraction to other core
+    redWhiteForce = 0.15;     // repel other organism's shell
+
+    // Green — dispersive shell of Organism 1
+    greenRedForce = -0.12;    // only mildly attracted to own core (asymmetric!)
+    greenGreenForce = 0.2;    // shell particles disperse from each other
+    greenYellowForce = 0.15;  // repel other organism's core
+    greenWhiteForce = -0.05;  // faint bridge to other shell
+
+    // Yellow — dense core of Organism 2
+    yellowRedForce = -0.08;   // faint attraction to other core
+    yellowGreenForce = 0.15;  // repel other organism's shell
+    yellowYellowForce = -0.2; // cores cluster together
+    yellowWhiteForce = -0.35; // strongly attract own shell
+
+    // White — dispersive shell of Organism 2
+    whiteRedForce = 0.15;     // repel other organism's core
+    whiteGreenForce = -0.05;  // faint bridge to other shell
+    whiteYellowForce = -0.12; // only mildly attracted to own core (asymmetric!)
+    whiteWhiteForce = 0.2;    // shell particles disperse from each other
+
+    updateParticleSize('red', 5);
+    updateParticleSize('green', 3);
+    updateParticleSize('yellow', 5);
+    updateParticleSize('white', 3);
+});
+
+document.getElementById('Ouroboros').addEventListener('click', () => {
+    // Circular predator-prey chain: Red→Green→Yellow→White→Red
+    // Each color hunts the next and flees the previous
+    // Moderate forces prevent instant collapse (damping is aggressive)
+    // Herding keeps groups visible; bystander attraction keeps the system coupled
+    speedFactor = 1;
+
+    // Red — hunts Green, flees from White
+    redRedForce = -0.15;      // herding (form visible packs)
+    redGreenForce = -0.38;    // chase green (prey) — moderate, not overwhelming
+    redYellowForce = -0.05;   // faint bystander attraction (keeps system coupled)
+    redWhiteForce = 0.32;     // flee white (predator)
+
+    // Green — hunts Yellow, flees from Red
+    greenRedForce = 0.32;     // flee red (predator)
+    greenGreenForce = -0.15;  // herding
+    greenYellowForce = -0.38; // chase yellow (prey)
+    greenWhiteForce = -0.05;  // faint bystander attraction
+
+    // Yellow — hunts White, flees from Green
+    yellowRedForce = -0.05;   // faint bystander attraction
+    yellowGreenForce = 0.32;  // flee green (predator)
+    yellowYellowForce = -0.15;// herding
+    yellowWhiteForce = -0.38; // chase white (prey)
+
+    // White — hunts Red, flees from Yellow
+    whiteRedForce = -0.38;    // chase red (prey)
+    whiteGreenForce = -0.05;  // faint bystander attraction
+    whiteYellowForce = 0.32;  // flee yellow (predator)
+    whiteWhiteForce = -0.15;  // herding
+
+    updateParticleSize('red', 4);
+    updateParticleSize('green', 4);
+    updateParticleSize('yellow', 4);
+    updateParticleSize('white', 4);
+});
+
+document.getElementById('NeuralAwakening').addEventListener('click', () => {
+    // A simulation of neural activity:
+    //   White = neuron bodies (large, cluster into brain regions)
+    //   Red   = excitatory signals (small, orbit neurons in firing patterns)
+    //   Green = inhibitory signals (chase red signals around the landscape)
+    //   Yellow = ambient neural field (tiny, diffuse background hum)
+    // KEY: Red is drawn TO white, but white PUSHES red away — creating
+    //   permanent oscillating orbits (like neurons firing and resetting)
+    speedFactor = 0.8;
+
+    // Red — excitatory signals: drawn to neurons but ejected on arrival (firing!)
+    redRedForce = 0.15;       // signals scatter apart
+    redGreenForce = 0.2;      // signals flee from inhibitors
+    redYellowForce = -0.06;   // faint pull from background field
+    redWhiteForce = -0.42;    // strongly drawn to neuron clusters
+
+    // Green — inhibitory signals: chase red signals around the landscape
+    greenRedForce = -0.38;    // chase red signals to suppress them
+    greenGreenForce = 0.08;   // slight self-dispersal (patrol widely)
+    greenYellowForce = -0.05; // faint background attraction
+    greenWhiteForce = -0.18;  // mild neuron attraction (patrol near brain regions)
+
+    // Yellow — ambient field: diffuse background that fills empty space
+    yellowRedForce = -0.06;   // faint signal pull
+    yellowGreenForce = -0.05; // faint inhibitor pull
+    yellowYellowForce = -0.04;// very mild self-cohesion
+    yellowWhiteForce = 0.18;  // pushed away from neuron clusters
+
+    // White — neuron bodies: cluster into regions, but PUSH signals outward (fire!)
+    whiteRedForce = 0.15;     // PUSH red signals away (asymmetric! creates orbits)
+    whiteGreenForce = 0.08;   // push inhibitors out slightly
+    whiteYellowForce = 0.12;  // push ambient field outward
+    whiteWhiteForce = -0.28;  // moderate clustering into brain regions
+
+    updateParticleSize('red', 3);
+    updateParticleSize('green', 3);
+    updateParticleSize('yellow', 2);
+    updateParticleSize('white', 7);
+});
+
+// ── GPT-5.3 Codex — 2026 ───────────────────────────────────────────────
+
+document.getElementById('PrismaticTide').addEventListener('click', () => {
+    // A long-lived wave machine:
+    // force relationships slowly shift over time to avoid a static equilibrium.
+    activeDynamicPreset = 'PrismaticTide';
+    presetPhase = 0;
+    speedFactor = 0.9;
+
+    redRedForce = -0.12;
+    redGreenForce = 0.28;
+    redYellowForce = -0.36;
+    redWhiteForce = 0.22;
+
+    greenRedForce = 0.28;
+    greenGreenForce = -0.12;
+    greenYellowForce = 0.22;
+    greenWhiteForce = -0.36;
+
+    yellowRedForce = -0.36;
+    yellowGreenForce = 0.22;
+    yellowYellowForce = -0.12;
+    yellowWhiteForce = 0.28;
+
+    whiteRedForce = 0.22;
+    whiteGreenForce = -0.36;
+    whiteYellowForce = 0.28;
+    whiteWhiteForce = -0.12;
+
+    updateParticleSize('red', 4);
+    updateParticleSize('green', 4);
+    updateParticleSize('yellow', 4);
+    updateParticleSize('white', 4);
+});
+
+document.getElementById('CathedralBloom').addEventListener('click', () => {
+    // A breathing architecture:
+    // white cores contract/expand while colors swap between orbit and drift modes.
+    activeDynamicPreset = 'CathedralBloom';
+    presetPhase = 0;
+    speedFactor = 0.65;
+
+    redRedForce = 0.18;
+    redGreenForce = -0.24;
+    redYellowForce = -0.28;
+    redWhiteForce = -0.44;
+
+    greenRedForce = -0.24;
+    greenGreenForce = 0.26;
+    greenYellowForce = -0.2;
+    greenWhiteForce = -0.3;
+
+    yellowRedForce = -0.28;
+    yellowGreenForce = -0.2;
+    yellowYellowForce = 0.16;
+    yellowWhiteForce = -0.46;
+
+    whiteRedForce = 0.3;
+    whiteGreenForce = -0.16;
+    whiteYellowForce = 0.34;
+    whiteWhiteForce = -0.5;
+
+    updateParticleSize('red', 3);
+    updateParticleSize('green', 3);
+    updateParticleSize('yellow', 3);
+    updateParticleSize('white', 6);
 });
 

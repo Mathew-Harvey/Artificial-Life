@@ -106,6 +106,18 @@ main {
     background-color: #0a84ff;
 }
 
+.ai-year-label {
+    flex-basis: 100%;
+    text-align: center;
+    font-size: 13px;
+    color: #999;
+    padding: 8px 0 2px;
+    border-top: 1px solid #ddd;
+    margin-top: 5px;
+    font-style: italic;
+    letter-spacing: 0.5px;
+}
+
 .preset-btn:hover::after {
     content: attr(data-tooltip);
     position: absolute;
