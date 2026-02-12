@@ -27,6 +27,9 @@ controlsClose.addEventListener('click', () => {
 });
 
 let speedFactor = 1;
+let trailAmount = 0;
+let interactionRange = 120;
+let vortexStrength = 0;
 
 let redRedForce = 0;
 let redGreenForce = 0;
@@ -95,7 +98,7 @@ function rule(particles1, particles2, force) {
             let dy = a.y - b.y;
             let d = Math.sqrt(dx * dx + dy * dy);
 
-            if (d > 0 && d < 120) {
+            if (d > 0 && d < interactionRange) {
                 let F = force * 1 / d;
                 fx += (F * dx);
                 fy += (F * dy);
@@ -139,9 +142,15 @@ function update() {
     rule(white, green, whiteGreenForce);
     rule(white, yellow, whiteYellowForce);
     rule(white, white, whiteWhiteForce);
+    applyVortexField();
 
-    m.clearRect(0, 0, 1000, 1000);
-    draw(0, 0, "black", 1000);
+    if (trailAmount > 0) {
+        m.fillStyle = `rgba(0, 0, 0, ${1.0 - trailAmount * 0.95})`;
+        m.fillRect(0, 0, 1000, 1000);
+    } else {
+        m.clearRect(0, 0, 1000, 1000);
+        draw(0, 0, "black", 1000);
+    }
     for (let i = 0; i < particles.length; i++) {
         drawPracticle(particles[i].x, particles[i].y, particles[i].color, particles[i].size);
     }
@@ -156,6 +165,83 @@ function updateParticleSize(color, newSize) {
         if (particles[i].color === color) {
             particles[i].size = newSize;
         }
+    }
+}
+
+function loadSliderValues() {
+    const forceConfig = [
+        ['redRedForce', 'force-slider-redRed', (value) => { redRedForce = value; }],
+        ['redGreenForce', 'force-slider-redGreen', (value) => { redGreenForce = value; }],
+        ['redYellowForce', 'force-slider-redYellow', (value) => { redYellowForce = value; }],
+        ['redWhiteForce', 'force-slider-redWhite', (value) => { redWhiteForce = value; }],
+        ['greenRedForce', 'force-slider-greenRed', (value) => { greenRedForce = value; }],
+        ['greenGreenForce', 'force-slider-greenGreen', (value) => { greenGreenForce = value; }],
+        ['greenYellowForce', 'force-slider-greenYellow', (value) => { greenYellowForce = value; }],
+        ['greenWhiteForce', 'force-slider-greenWhite', (value) => { greenWhiteForce = value; }],
+        ['yellowRedForce', 'force-slider-yellowRed', (value) => { yellowRedForce = value; }],
+        ['yellowGreenForce', 'force-slider-yellowGreen', (value) => { yellowGreenForce = value; }],
+        ['yellowYellowForce', 'force-slider-yellowYellow', (value) => { yellowYellowForce = value; }],
+        ['yellowWhiteForce', 'force-slider-yellowWhite', (value) => { yellowWhiteForce = value; }],
+        ['whiteRedForce', 'force-slider-whiteRed', (value) => { whiteRedForce = value; }],
+        ['whiteGreenForce', 'force-slider-whiteGreen', (value) => { whiteGreenForce = value; }],
+        ['whiteYellowForce', 'force-slider-whiteYellow', (value) => { whiteYellowForce = value; }],
+        ['whiteWhiteForce', 'force-slider-whiteWhite', (value) => { whiteWhiteForce = value; }]
+    ];
+
+    forceConfig.forEach(([storageKey, sliderId, setter]) => {
+        const stored = localStorage.getItem(storageKey);
+        if (stored !== null) {
+            const value = parseFloat(stored);
+            setter(value);
+            const slider = document.getElementById(sliderId);
+            const valueLabel = document.getElementById(sliderId.replace('force-slider', 'force-value'));
+            if (slider) slider.value = value;
+            if (valueLabel) valueLabel.textContent = value.toFixed(2);
+        }
+    });
+
+    ['red', 'green', 'yellow', 'white'].forEach((color) => {
+        const stored = localStorage.getItem(`size-${color}`);
+        if (stored !== null) {
+            const value = parseInt(stored, 10);
+            updateParticleSize(color, value);
+            const slider = document.getElementById(`size-slider-${color}`);
+            const valueLabel = document.getElementById(`size-value-${color}`);
+            if (slider) slider.value = value;
+            if (valueLabel) valueLabel.textContent = value;
+        }
+    });
+}
+
+function setTrailsAndRange(trail, range) {
+    trailAmount = trail;
+    interactionRange = range;
+    document.getElementById('trails-slider').value = trail;
+    document.getElementById('trails-value').textContent = trail.toFixed(2);
+    document.getElementById('range-slider').value = range;
+    document.getElementById('range-value').textContent = range;
+}
+
+function setVortex(strength) {
+    vortexStrength = strength;
+    document.getElementById('vortex-slider').value = strength;
+    document.getElementById('vortex-value').textContent = strength.toFixed(2);
+}
+
+function applyVortexField() {
+    if (vortexStrength <= 0) return;
+
+    for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        const dx = p.x - 500;
+        const dy = p.y - 500;
+        const distance = Math.sqrt(dx * dx + dy * dy) + 0.0001;
+        const radialFalloff = Math.min(distance / 500, 1);
+        const swirl = vortexStrength * 0.06 * radialFalloff;
+
+        // Tangential push around center to create large-scale rotating flow.
+        p.vx += (-dy / distance) * swirl;
+        p.vy += (dx / distance) * swirl;
     }
 }
 
@@ -251,6 +337,40 @@ if (localStorage.getItem('speedFactor')) {
     document.getElementById('speedFactor-slider').value = speedFactor;
 }
 
+document.getElementById('trails-slider').addEventListener('input', (event) => {
+    trailAmount = parseFloat(event.target.value);
+    document.getElementById('trails-value').textContent = trailAmount.toFixed(2);
+    localStorage.setItem('trailAmount', trailAmount);
+});
+
+document.getElementById('range-slider').addEventListener('input', (event) => {
+    interactionRange = parseInt(event.target.value);
+    document.getElementById('range-value').textContent = interactionRange;
+    localStorage.setItem('interactionRange', interactionRange);
+});
+
+document.getElementById('vortex-slider').addEventListener('input', (event) => {
+    vortexStrength = parseFloat(event.target.value);
+    document.getElementById('vortex-value').textContent = vortexStrength.toFixed(2);
+    localStorage.setItem('vortexStrength', vortexStrength);
+});
+
+if (localStorage.getItem('trailAmount')) {
+    trailAmount = parseFloat(localStorage.getItem('trailAmount'));
+    document.getElementById('trails-slider').value = trailAmount;
+    document.getElementById('trails-value').textContent = trailAmount.toFixed(2);
+}
+if (localStorage.getItem('interactionRange')) {
+    interactionRange = parseInt(localStorage.getItem('interactionRange'));
+    document.getElementById('range-slider').value = interactionRange;
+    document.getElementById('range-value').textContent = interactionRange;
+}
+if (localStorage.getItem('vortexStrength')) {
+    vortexStrength = parseFloat(localStorage.getItem('vortexStrength'));
+    document.getElementById('vortex-slider').value = vortexStrength;
+    document.getElementById('vortex-value').textContent = vortexStrength.toFixed(2);
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     function updateSliderValue(sliderId) {
         const slider = document.getElementById(sliderId);
@@ -287,6 +407,10 @@ document.addEventListener("DOMContentLoaded", function () {
     updateSliderValue('force-slider-whiteRed');
     updateSliderValue('force-slider-whiteYellow');
     updateSliderValue('force-slider-whiteGreen');
+
+    updateSliderValue('trails-slider');
+    updateSliderValue('range-slider');
+    updateSliderValue('vortex-slider');
 });
 
 // Any preset click disables dynamic modulation by default.
@@ -636,6 +760,8 @@ document.getElementById('Symbiogenesis').addEventListener('click', () => {
     updateParticleSize('green', 3);
     updateParticleSize('yellow', 5);
     updateParticleSize('white', 3);
+    setTrailsAndRange(0.3, 150);
+    setVortex(0.12);
 });
 
 document.getElementById('Ouroboros').addEventListener('click', () => {
@@ -673,6 +799,8 @@ document.getElementById('Ouroboros').addEventListener('click', () => {
     updateParticleSize('green', 4);
     updateParticleSize('yellow', 4);
     updateParticleSize('white', 4);
+    setTrailsAndRange(0.5, 100);
+    setVortex(0.28);
 });
 
 document.getElementById('NeuralAwakening').addEventListener('click', () => {
@@ -713,6 +841,8 @@ document.getElementById('NeuralAwakening').addEventListener('click', () => {
     updateParticleSize('green', 3);
     updateParticleSize('yellow', 2);
     updateParticleSize('white', 7);
+    setTrailsAndRange(0.65, 90);
+    setVortex(0.2);
 });
 
 // ── GPT-5.3 Codex — 2026 ───────────────────────────────────────────────
@@ -748,6 +878,8 @@ document.getElementById('PrismaticTide').addEventListener('click', () => {
     updateParticleSize('green', 4);
     updateParticleSize('yellow', 4);
     updateParticleSize('white', 4);
+    setTrailsAndRange(0.72, 130);
+    setVortex(0.34);
 });
 
 document.getElementById('CathedralBloom').addEventListener('click', () => {
@@ -781,5 +913,7 @@ document.getElementById('CathedralBloom').addEventListener('click', () => {
     updateParticleSize('green', 3);
     updateParticleSize('yellow', 3);
     updateParticleSize('white', 6);
+    setTrailsAndRange(0.82, 110);
+    setVortex(0.22);
 });
 
